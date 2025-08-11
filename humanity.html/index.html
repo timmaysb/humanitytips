@@ -1,0 +1,456 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>HumanityTips - Anonymous Global Tips</title>
+<style>
+  body {
+    font-family: Arial, sans-serif;
+    margin:0; padding:0;
+    background:#f5f5f5;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    align-items: center;
+  }
+  header {
+    background:#333;
+    color:#fff;
+    padding:15px 20px;
+    width: 100%;
+    text-align: center;
+    font-size: 28px;
+    font-weight: bold;
+  }
+  #adsense-banner {
+    margin: 10px auto;
+    text-align:center;
+    max-width: 320px;
+    width: 100%;
+  }
+  #categories {
+    display: flex;
+    gap: 12px;
+    margin: 20px 0 10px;
+    flex-wrap: wrap;
+    justify-content: center;
+    max-width: 600px;
+    width: 100%;
+  }
+  .category-btn {
+    padding: 10px 20px;
+    background: #eee;
+    border: none;
+    border-radius: 25px;
+    cursor: pointer;
+    white-space: nowrap;
+    font-size: 16px;
+    transition: background-color 0.3s, color 0.3s;
+  }
+  .category-btn.active {
+    background: #333;
+    color: #fff;
+  }
+  #tip-container {
+    background: #fff;
+    box-shadow: 0 0 5px #ccc;
+    border-radius: 8px;
+    max-width: 600px;
+    width: 90%;
+    padding: 20px 25px;
+    margin-bottom: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  #tip-text {
+    font-size: 20px;
+    line-height: 1.4;
+    margin-bottom: 15px;
+    text-align: center;
+  }
+  #tip-meta {
+    font-size: 14px;
+    color: #666;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 15px;
+    flex-wrap: wrap;
+  }
+  .btn-vote {
+    cursor: pointer;
+    background: none;
+    border: none;
+    font-size: 18px;
+    user-select: none;
+    padding: 5px 10px;
+    border-radius: 5px;
+    transition: background-color 0.2s;
+  }
+  .btn-vote:hover {
+    background-color: #ddd;
+  }
+  #shuffle-btn {
+    margin-top: 15px;
+    padding: 10px 30px;
+    font-size: 16px;
+    border-radius: 25px;
+    border: none;
+    cursor: pointer;
+    background-color: #333;
+    color: #fff;
+    user-select: none;
+    transition: background-color 0.3s;
+  }
+  #shuffle-btn:hover {
+    background-color: #555;
+  }
+  #share-tip-form {
+    max-width: 600px;
+    width: 90%;
+    background:#fff;
+    padding: 20px 25px;
+    border-radius: 8px;
+    margin-bottom: 40px;
+  }
+  #share-tip-form h3 {
+    margin-top: 0;
+    margin-bottom: 12px;
+    font-size: 22px;
+    text-align: center;
+  }
+  #tip-input {
+    width: 100%;
+    height: 80px;
+    padding: 10px;
+    font-size: 16px;
+    resize: vertical;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    box-sizing: border-box;
+  }
+  #char-count {
+    text-align: right;
+    font-size: 12px;
+    color: #666;
+    margin-top: 4px;
+    user-select: none;
+  }
+  #share-tip-form select, #share-tip-form button {
+    margin-top: 15px;
+    width: 100%;
+    padding: 10px;
+    font-size: 16px;
+    border-radius: 25px;
+    border: none;
+    cursor: pointer;
+    user-select: none;
+  }
+  #share-tip-form select {
+    border: 1px solid #ccc;
+  }
+  #share-tip-btn {
+    background-color: #333;
+    color: #fff;
+    transition: background-color 0.3s;
+  }
+  #share-tip-btn:hover {
+    background-color: #555;
+  }
+  #message {
+    max-width: 600px;
+    width: 90%;
+    margin: 10px auto 0;
+    text-align: center;
+    font-weight: bold;
+    color: green;
+    min-height: 20px;
+  }
+  @media (max-width: 420px) {
+    #tip-text {
+      font-size: 18px;
+    }
+    #categories {
+      gap: 8px;
+    }
+    .category-btn {
+      padding: 8px 15px;
+      font-size: 14px;
+    }
+  }
+</style>
+</head>
+<body>
+
+<header>HumanityTips</header>
+
+<div id="adsense-banner">
+  <!-- Google AdSense Ad -->
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9595015125793033"
+     crossorigin="anonymous"></script>
+  <ins class="adsbygoogle"
+       style="display:inline-block;width:300px;height:140px"
+       data-ad-client="ca-pub-9595015125793033"
+       data-ad-slot="4881146145"></ins>
+  <script>
+       (adsbygoogle = window.adsbygoogle || []).push({});
+  </script>
+</div>
+
+<div id="categories">
+  <button class="category-btn active" data-cat="random">Random</button>
+  <button class="category-btn" data-cat="cooking">Cooking</button>
+  <button class="category-btn" data-cat="tech">Tech</button>
+  <button class="category-btn" data-cat="fitness">Fitness</button>
+  <button class="category-btn" data-cat="life">Life</button>
+</div>
+
+<div id="tip-container">
+  <div id="tip-text">Loading tips...</div>
+  <div id="tip-meta">
+    <span id="tip-category"></span>
+    <span id="tip-date"></span>
+    <button class="btn-vote" id="btn-like" title="Like">👍 0</button>
+    <button class="btn-vote" id="btn-dislike" title="Dislike">👎 0</button>
+  </div>
+  <button id="shuffle-btn" title="Show another tip">Shuffle Tip 🔄</button>
+</div>
+
+<div id="message"></div>
+
+<div id="share-tip-form">
+  <h3>Share a Tip</h3>
+  <textarea id="tip-input" maxlength="250" placeholder="Write your tip here..."></textarea>
+  <div id="char-count">0 / 250</div>
+  <select id="tip-category-select">
+    <option value="random">Random</option>
+    <option value="cooking">Cooking</option>
+    <option value="tech">Tech</option>
+    <option value="fitness">Fitness</option>
+    <option value="life">Life</option>
+  </select><br />
+  <button id="share-tip-btn">Share</button>
+</div>
+
+<script>
+  // ==== CONFIGURATION ====
+  const JSONBIN_BIN_ID = "6899750dd0ea881f4056682e"; 
+  const JSONBIN_API_KEY = "$2a$10$lCONpCet14HRsLNxl1XWAeTLc8u3fnqwiAHqI/eHamXg8nKDmDuXK"; 
+  const JSONBIN_BIN_URL = `https://api.jsonbin.io/v3/b/${JSONBIN_BIN_ID}`;
+  const HEADERS = {
+    "Content-Type": "application/json",
+    "X-Master-Key": JSONBIN_API_KEY
+  };
+
+  // ==== State ====
+  let tipsData = [];
+  let currentCategory = "random";
+  let currentTip = null;
+
+  // ==== Helpers ====
+  function formatDate(dateStr) {
+    const d = new Date(dateStr);
+    return d.toLocaleString();
+  }
+
+  function escapeHtml(text) {
+    const div = document.createElement("div");
+    div.innerText = text;
+    return div.innerHTML;
+  }
+
+  // ==== Fetch Tips ====
+  async function fetchTips() {
+    try {
+      const res = await fetch(JSONBIN_BIN_URL + "/latest", { headers: HEADERS });
+      if (!res.ok) throw new Error("Failed to fetch tips");
+      const data = await res.json();
+      tipsData = data.record || [];
+      showRandomTip();
+    } catch (e) {
+      document.getElementById("tip-text").innerText = "Error loading tips.";
+      console.error(e);
+    }
+  }
+
+  // ==== Show random tip from current category ====
+  function showRandomTip() {
+    let filteredTips = currentCategory === "random"
+      ? tipsData
+      : tipsData.filter(tip => tip.category === currentCategory);
+
+    if (filteredTips.length === 0) {
+      currentTip = null;
+      updateTipDisplay(null);
+      return;
+    }
+    // Pick random tip different from currentTip if possible
+    let tip;
+    if (filteredTips.length === 1) {
+      tip = filteredTips[0];
+    } else {
+      do {
+        tip = filteredTips[Math.floor(Math.random() * filteredTips.length)];
+      } while (tip === currentTip && filteredTips.length > 1);
+    }
+    currentTip = tip;
+    updateTipDisplay(tip);
+  }
+
+  // ==== Update tip display ====
+  function updateTipDisplay(tip) {
+    const tipTextEl = document.getElementById("tip-text");
+    const tipCategoryEl = document.getElementById("tip-category");
+    const tipDateEl = document.getElementById("tip-date");
+    const btnLike = document.getElementById("btn-like");
+    const btnDislike = document.getElementById("btn-dislike");
+
+    if (!tip) {
+      tipTextEl.innerText = "No tips available in this category.";
+      tipCategoryEl.innerText = "";
+      tipDateEl.innerText = "";
+      btnLike.innerText = "👍 0";
+      btnDislike.innerText = "👎 0";
+      btnLike.disabled = true;
+      btnDislike.disabled = true;
+      return;
+    }
+
+    tipTextEl.innerHTML = escapeHtml(tip.text);
+    tipCategoryEl.innerText = `Category: ${tip.category}`;
+    tipDateEl.innerText = `Posted: ${formatDate(tip.created)}`;
+    btnLike.innerText = `👍 ${tip.likes || 0}`;
+    btnDislike.innerText = `👎 ${tip.dislikes || 0}`;
+    btnLike.disabled = false;
+    btnDislike.disabled = false;
+  }
+
+  // ==== Voting logic ====
+  function hasVoted(tipId) {
+    const votes = JSON.parse(localStorage.getItem("votedTips") || "{}");
+    return !!votes[tipId];
+  }
+
+  function markVoted(tipId) {
+    const votes = JSON.parse(localStorage.getItem("votedTips") || "{}");
+    votes[tipId] = true;
+    localStorage.setItem("votedTips", JSON.stringify(votes));
+  }
+
+  async function vote(action) {
+    if (!currentTip) return;
+    if (hasVoted(currentTip.id)) {
+      alert("You have already voted on this tip.");
+      return;
+    }
+
+    const idx = tipsData.findIndex(t => t.id === currentTip.id);
+    if (idx === -1) return;
+
+    if (action === "like") tipsData[idx].likes = (tipsData[idx].likes || 0) + 1;
+    if (action === "dislike") tipsData[idx].dislikes = (tipsData[idx].dislikes || 0) + 1;
+
+    markVoted(currentTip.id);
+    currentTip = tipsData[idx];
+    updateTipDisplay(currentTip);
+
+    try {
+      await saveTips();
+    } catch (e) {
+      console.error("Failed to save vote:", e);
+      alert("Failed to save vote. Try again later.");
+    }
+  }
+
+  // ==== Save tips to JSONBin ====
+  async function saveTips() {
+    const res = await fetch(JSONBIN_BIN_URL, {
+      method: "PUT",
+      headers: HEADERS,
+      body: JSON.stringify(tipsData),
+    });
+    if (!res.ok) throw new Error("Failed to save data");
+  }
+
+  // ==== Share new tip ====
+  async function shareTip() {
+    const text = document.getElementById("tip-input").value.trim();
+    const category = document.getElementById("tip-category-select").value;
+    if (!text) {
+      alert("Please write a tip before sharing.");
+      return;
+    }
+
+    if (text.length > 250) {
+      alert("Tip exceeds 250 character limit.");
+      return;
+    }
+
+    const newTip = {
+      id: crypto.randomUUID ? crypto.randomUUID() : Date.now().toString(),
+      text,
+      category,
+      created: new Date().toISOString(),
+      likes: 0,
+      dislikes: 0
+    };
+    tipsData.push(newTip);
+
+    try {
+      await saveTips();
+      document.getElementById("tip-input").value = "";
+      updateCharCount();
+      document.getElementById("tip-category-select").value = "random";
+      document.getElementById("message").innerText = "Tip shared successfully!";
+      currentCategory = "random";
+      updateActiveCategoryButton();
+      showRandomTip();
+      setTimeout(() => {
+        document.getElementById("message").innerText = "";
+      }, 3000);
+    } catch (e) {
+      console.error("Failed to share tip:", e);
+      alert("Failed to share tip. Try again later.");
+    }
+  }
+
+  // ==== Handle category change ====
+  function setCategory(cat) {
+    currentCategory = cat;
+    updateActiveCategoryButton();
+    showRandomTip();
+  }
+
+  function updateActiveCategoryButton() {
+    document.querySelectorAll(".category-btn").forEach(btn => {
+      btn.classList.toggle("active", btn.getAttribute("data-cat") === currentCategory);
+    });
+  }
+
+  // ==== Update character count for tip input ====
+  function updateCharCount() {
+    const input = document.getElementById("tip-input");
+    const count = input.value.length;
+    document.getElementById("char-count").innerText = `${count} / 250`;
+  }
+
+  // ==== Event Listeners ====
+  document.getElementById("btn-like").addEventListener("click", () => vote("like"));
+  document.getElementById("btn-dislike").addEventListener("click", () => vote("dislike"));
+  document.getElementById("shuffle-btn").addEventListener("click", showRandomTip);
+  document.getElementById("share-tip-btn").addEventListener("click", shareTip);
+  document.getElementById("tip-input").addEventListener("input", updateCharCount);
+
+  document.querySelectorAll(".category-btn").forEach(btn => {
+    btn.addEventListener("click", () => setCategory(btn.getAttribute("data-cat")));
+  });
+
+  // ==== Initialize ====
+  fetchTips();
+  updateCharCount();
+</script>
+
+</body>
+</html>
