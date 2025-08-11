@@ -1,2 +1,2 @@
-# humanitytips
-tips for humanity
+# HumanityTips
+Tips for Humanity
