@@ -1,0 +1,2 @@
+# humanitytips
+tips for humanity
